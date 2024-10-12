@@ -1,4 +1,5 @@
-const express = require('express');
+import express, { Express, Request, Response } from "express"
+// const express = require('express');
 const cors = require('cors');
 
 const port = 3000;
@@ -11,7 +12,11 @@ app.get('/hello', (req, res) => {
   res.send('Hello, World!');
 });
 
+
 // Tells our app to listen to the given port
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+// need ts backend?
+// can use SDK or APIs 
