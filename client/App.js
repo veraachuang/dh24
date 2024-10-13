@@ -6,7 +6,7 @@ import SomeComponent from './src/SomeComponent';
 import React, { useState, useEffect } from 'react';
 import NotificationClient from "./NotificationHandler";
 import LocationStatusHandler from './src/LocationHandler';
-// import WaterSourceMap from './src/components/WaterSourceMap';
+import WaterSourceMap from './src/components/WaterSourceMap';
 
 export default function App() {
 
@@ -81,6 +81,7 @@ export default function App() {
                     <Text style={styles.caption}>Tour du Mont Blanc</Text>
                     <Text style={styles.description}>100+ miles away</Text>
                 </View>
+                <WaterSourceMap/>
             </ScrollView>
             <NotificationClient />
             <LocationStatusHandler />
