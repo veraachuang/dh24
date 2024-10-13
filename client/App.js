@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView, Image } from 'react-native';
 import SomeComponent from './src/SomeComponent';
 import React, { useState, useEffect } from 'react';
 import NotificationClient from "./NotificationHandler";
@@ -54,13 +54,18 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     image: {
-        width: 150,             // Set the width of the image
-        height: 150,            // Set the height of the image
+        width: 350,             // Set the width of the image
+        height: 160,            // Set the height of the image
         borderRadius: 75,       // Half the width/height to create rounded edges
         marginBottom: 10,       // Space between image and text
     },
     caption: {
         fontSize: 20,
+    },
+    image_container: {
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 20,
     },
 });
 
