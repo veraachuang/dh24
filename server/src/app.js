@@ -13,7 +13,7 @@ app.post('/notifyConnect', (req, res) => {
     const authToken = req.headers.authorization;  // Extract the Bearer token
 
     // Verify the token (ensure it's the expected token)
-    if (authToken !== 'AUTH0') {
+    if (authToken !== '<auth-token') {
         return res.status(403).send('Forbidden: Invalid token');
     }
 
@@ -29,7 +29,7 @@ app.post('/notifyDisconnect', (req, res) => {
     const authToken = req.headers.authorization;  // Extract the Bearer token
 
     // Verify the token (ensure it's the expected token)
-    if (authToken !== 'AUTH0') {
+    if (authToken !== '<auth-token>') {
         return res.status(403).send('Forbidden: Invalid token');
     }
 
