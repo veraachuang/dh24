@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView, ActivityIndicator, Image } from 'react-native';
+import SearchBar from "./src/components/SearchBar";
+
 import SomeComponent from './src/SomeComponent';
 import React, { useState, useEffect } from 'react';
 import NotificationClient from "./NotificationHandler";
 import LocationStatusHandler from './src/LocationHandler';
-import WaterSourceMap from './src/components/WaterSourceMap';
+// import WaterSourceMap from './src/components/WaterSourceMap';
 
 export default function App() {
 
@@ -44,21 +46,45 @@ export default function App() {
     return (
 
         <SafeAreaView style={styles.container}>
-            <Text style={styles.h1}> S  P  O  T  T  Y</Text>
+            {/* <Text style={styles.h1}> S  P  O  T  T  Y</Text> */}
+            <SearchBar />
             <ScrollView style={styles.scrollView}>
-                <View style={styles.container}>
+                <View style={styles.image_container}>
+                    <Image
+                        source={require('./assets/lake-serene.jpeg')} // Replace with your image URL
+                        style={styles.image}
+                    />
+                </View>
+                <View style={styles.caption_container}>
+                    <Text style={styles.caption}>Lake Serene</Text>
+                    <Text style={styles.description}>20 miles away</Text>
+                </View>
+                <View style={styles.image_container}>
                     <Image
                         source={require('./assets/grand-canyon.jpeg')} // Replace with your image URL
                         style={styles.image}
                     />
-                    <Text style={styles.caption}>Grand Canyon</Text>
                 </View>
-                <Text style={styles.text}>Have fun on your backpacking trip!</Text>
-                <StatusBar style="auto" />
-                <NotificationClient />
-                <LocationStatusHandler />
-                <WaterSourceMap/>
+
+                <View style={styles.caption_container}>
+                    <Text style={styles.caption}>Grand Canyon</Text>
+                    <Text style={styles.description}>50+ miles away</Text>
+                </View>
+
+                <View style={styles.image_container}>
+                    <Image
+                        source={require('./assets/mont-blanc.jpeg')} // Replace with your image URL
+                        style={styles.image}
+                    />
+                </View>
+                <View style={styles.caption_container}>
+                    <Text style={styles.caption}>Tour du Mont Blanc</Text>
+                    <Text style={styles.description}>100+ miles away</Text>
+                </View>
             </ScrollView>
+            <NotificationClient />
+            <LocationStatusHandler />
+            {/* <WaterSourceMap/> */}
             <StatusBar style="auto" />
         </SafeAreaView>
     );
@@ -102,7 +128,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: StatusBar.currentHeight || 0,
+        paddingTop: 15,
         backgroundColor: '#fff',
     },
     scrollView: {
@@ -111,25 +137,40 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         textAlignVertical: "center",
-        font: 'Roboto',
+        font: 'Consolata',
         justifyContent: "center"
     },
     h1: {
         fontSize: 40,
         align: "center",
-        font: 'Roboto',
+        font: 'Consolata',
         justifyContent: "center",
         textAlign: "center",
     },
     image: {
-        width: 150,             // Set the width of the image
-        height: 150,            // Set the height of the image
-        borderRadius: 75,       // Half the width/height to create rounded edges
+        width: 350,             // Set the width of the image
+        height: 160,            // Set the height of the image
+        borderRadius: 20,       // Half the width/height to create rounded edges
         marginBottom: 10,       // Space between image and text
     },
     caption: {
         fontSize: 20,
+        font: 'Consolata',
     },
+    image_container: {
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    description: {
+        fontSize: 15,
+        font: 'Consolata',
+        color: '#787878'
+    },
+    caption_container: {
+        alignSelf: 'flex-start',   // Aligns text to the left of the image
+        marginLeft: 20,
+    }
 });
 
 
