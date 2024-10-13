@@ -4,6 +4,7 @@ import SomeComponent from './src/SomeComponent';
 import React, { useState, useEffect } from 'react';
 import NotificationClient from "./NotificationHandler";
 import LocationStatusHandler from './src/LocationHandler';
+import WaterSourceMap from './src/components/WaterSourceMap';
 
 export default function App() {
 
@@ -56,6 +57,7 @@ export default function App() {
                 <StatusBar style="auto" />
                 <NotificationClient />
                 <LocationStatusHandler />
+                <WaterSourceMap/>
             </ScrollView>
             <StatusBar style="auto" />
         </SafeAreaView>

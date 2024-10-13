@@ -11,7 +11,7 @@ const ws = new WebSocketServer({ port: 8080 }); // WebSocket server on port 8080
 let clients = [];
 
 // WebSocket connection
-wss.on('connection', (ws) => {
+ws.on('connection', (ws) => {
     clients.push(ws); // Add client to list
 
     ws.on('close', () => {
