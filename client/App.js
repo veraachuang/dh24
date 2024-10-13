@@ -8,10 +8,11 @@ export default function App() {
   return (
 
     <SafeAreaView style={styles.container}>
-        <NotificationClient />
+        <Text style = {styles.h1}> S  P  O  T  T  Y</Text>
         <ScrollView style = {styles.scrollView}>
             <Text style = {styles.text}>Have fun on your backpacking trip!</Text>
-            <StatusBar style="auto" />
+             <StatusBar style="auto" />
+            <NotificationClient />
         </ScrollView>
     </SafeAreaView>
   );
@@ -27,11 +28,18 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     text: {
-        fontSize: 42,
-        align: "center",
+        fontSize: 20,
+        textAlignVertical: "center",
         font: 'Roboto',
         justifyContent: "center"
     },
+    h1: {
+        fontSize: 40,
+        align: "center",
+        font: 'Roboto',
+        justifyContent: "center",
+        textAlign: "center",
+    }
 });
 
 
