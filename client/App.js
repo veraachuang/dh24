@@ -22,9 +22,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: StatusBar.currentHeight,
+        backgroundColor: 'green',
+        
     },
     scrollView: {
-        backgroundColor: 'light-blue',
+        backgroundColor: 'green',
         marginHorizontal: 20,
     },
     text: {
