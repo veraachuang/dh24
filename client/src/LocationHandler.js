@@ -14,17 +14,19 @@ export const getDeviceLocation = async () => {
 
 const LocationStatusHandler = () => {
     const [deviceLocation, setDeviceLocation] = useState(null);
-    const [locationStatus, setLocationStatus] = useState(null);
+    const [locationStatus, setLocationStatus] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleFetchLocation = async () => {
         setLoading(true);
         try {
-            const locationData = await getDeviceLocation(); // Use the external function
+            // const locationData = await getDeviceLocation(); // Use the external function
             if (locationData !== undefined) {
                 setDeviceLocation(locationData); // Set the device location in the state
                 findDistance(deviceLocation.latitude, deviceLocation.longitude);
             }
+            //setDeviceLocation({latitude: 142.2598, longitude:23.23498});
+            //findDistance(142.2598, 23.23498);
         } catch (error) {
             console.error('Error fetching device location:', error);
         } finally {
@@ -68,21 +70,24 @@ const LocationStatusHandler = () => {
     return (
         <View style = {styles.container}>
             <View>
-                {locationStatus ? (
-                        <Text style={{ fontSize: 18 }}>{locationStatus}</Text>
-                    ) :
-                    <Text style={{ fontSize: 18 }}>Would you like to get your location?</Text>}
+                <Text style = {styles.h1}>
+                    Find out where you are!
+                </Text>
             </View>
             <Button title="Get Your Location" onPress={handleFetchLocation} />
             {loading ? (
                 <Text>Loading...</Text>
             ) : deviceLocation ? (
-                <Text>
+                <Text style = {styles.h2}>
                     Latitude: {deviceLocation.latitude}, Longitude: {deviceLocation.longitude}
                 </Text>
             ) : (
                 <Text>No location data available</Text>
             )}
+            {locationStatus ? (
+                    <Text style={styles.h2}>{locationStatus}</Text>
+                ) :
+                <Text style={styles.h2}></Text>}
         </View>
     );
 
@@ -152,6 +157,21 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',  // Center the content
         alignItems: 'center',      // Align items in the center
+    },
+    h1: {
+        fontSize: 40,
+        align: "center",
+        font: 'Consolata',
+        justifyContent: "center",
+        textAlign: "center",
+    },
+    h2: {
+        fontSize: 20,
+        marginTop: 10,
+        align: "center",
+        font: 'Consolata',
+        justifyContent: "center",
+        textAlign: "center",
     },
 });
 

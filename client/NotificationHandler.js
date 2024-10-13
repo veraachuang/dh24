@@ -113,8 +113,8 @@ const NotificationClient = () => {
         setIsToggled(prev => !prev);
 
         if (notificationTimestamps.length >= 5) {
-            Alert.alert('', 'Our system has detected an unstable connection. Would you like to ' +
-                'send a message to friends or family with your location?', [
+            Alert.alert('','Our system has detected an unstable connection. Would you like to ' +
+                'send a message to friends or family with your location?',  [
                 {
                     text: 'No Thanks',
                     onPress: () => console.log('Cancel Pressed'),
@@ -123,8 +123,8 @@ const NotificationClient = () => {
                         // calls location retrieval to get the user's location
                         void getLocation();
 
-                        // const message = `Hi! My connection is spotty but I'm currently at this location: 234.40932}, 23.45098}.`;
                         // theoretically should get the latitude and longitude but there need to be more null checks
+                        // const message = `Hi! My connection is spotty but I'm currently at this location: 123.34985, 46.49382.`;
                         const message = `Hi! My connection is spotty but I'm currently at this location: ${deviceLocation.latitude}, ${deviceLocation.longitude}.`;
                         const url = `sms:?body=${encodeURIComponent(message)}`;
 
@@ -165,7 +165,7 @@ const NotificationClient = () => {
 
     return (
         <View style={styles.container}>
-            <Text>WE think you're connected</Text>
+            <Text style = {styles.h1}>Find out if you're connected...</Text>
             {notificationData && (
                 <View>
                     <Text>Here is your network connection information:</Text>
@@ -184,15 +184,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',      // Align items in the center
     },
     button: {
-        backgroundColor: '#007bff', // Button color
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#0BB243', // Button color
+        padding: 20,
+        borderRadius: 10,
         alignItems: 'center',
-        marginVertical: 10,
+        marginVertical: 20,
     },
     buttonText: {
         color: '#fff', // Button text color
-        fontSize: 16,
+        fontSize: 20,
+    },
+    h1: {
+        fontSize: 40,
+        align: "center",
+        font: 'Consolata',
+        justifyContent: "center",
+        textAlign: "center",
     },
 });
 
