@@ -68,10 +68,9 @@ const NotificationClient = () => {
 
     return (
         <View style={{ padding: 40 }}>
-            <Text>{notificationData === null ? '' : 'Your connection has recently changed'}</Text>
             {notificationData && (
                 <View>
-                    <Text>Notification Data:</Text>
+                    <Text>Here is your network connection information:</Text>
                     <Text>{JSON.stringify(notificationData)}</Text>
                 </View>
             )}
