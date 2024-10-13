@@ -1,8 +1,10 @@
 import express from "express"
 import bodyParser from 'body-parser';
 import { NetworkAsCodeClient } from "network-as-code";
-import {subscribeToNokiaService} from "./routes.js";
+import { subscribeToNokiaService } from "./routes.js";
 import WebSocket, { WebSocketServer } from 'ws';
+import waterSourceRoutes from './waterSourceRoutes.js';  // Import water source routes
+
 
 // Set up WebSocket server
 const wss = new WebSocketServer({ port: 8080 }); // WebSocket server on port 8080
@@ -72,6 +74,8 @@ app.post('/notifyDisconnect', (req, res) => {
     // Process the session update (e.g., log it, store it, or notify clients)
     res.status(200).send('Notification received');
 });
+
+app.use('/water-source', waterSourceRoutes);
 
 // Start the server
 const PORT = 8088;
