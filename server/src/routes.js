@@ -1,11 +1,11 @@
 import { NetworkAsCodeClient } from "network-as-code";
 
 // We begin by creating a Network as Code client
-const client = new NetworkAsCodeClient("759b437f75msh27c008fe0ed1851p1786c2jsnd1edf9db573d");
+const client = new NetworkAsCodeClient("<access-token>");
 
 // Then, we create an object for the mobile device we want to use
 const myDevice = client.devices.get({
-    networkAccessIdentifier: "4ff71f1f-8c95-40d0-b434-fb19f65a0214@testcsp.net",
+    networkAccessIdentifier: "<test-device>",
     ipv4Address: {
         publicAddress: "233.252.0.2",
         privateAddress: "192.0.2.25",
@@ -25,7 +25,7 @@ export async function subscribeToNokiaService() {
         // Use HTTPS to send notifications
         "https://localhost:8088.com/notifyConnect",
         {
-            notificationAuthToken: "AUTH0",
+            notificationAuthToken: "<auth-token>",
             // Pass the previously created date-time object
             subscriptionExpireTime: expirationDate
         },
@@ -37,7 +37,7 @@ export async function subscribeToNokiaService() {
         // Use HTTPS to send notifications
         "https://localhost:8088.com/notifyDisconnect",
         {
-            notificationAuthToken: "AUTH0",
+            notificationAuthToken: "<auth-token>",
             // Pass the previously created date-time object
             subscriptionExpireTime: expirationDate
         },
