@@ -1,17 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView } from 'react-native';
+import SomeComponent from './src/SomeComponent';
 import React, { useState, useEffect } from 'react';
-import LocationStatusHandler from './src/LocationHandler';
+import NotificationClient from "./NotificationHandler";
 
 export default function App() {
   return (
 
     <SafeAreaView style={styles.container}>
-        <Text style = {styles.h1}> S  P  O  T  T  Y</Text>
+        <NotificationClient />
         <ScrollView style = {styles.scrollView}>
             <Text style = {styles.text}>Have fun on your backpacking trip!</Text>
-             <StatusBar style="auto" />
-            <LocationStatusHandler/>
+            <StatusBar style="auto" />
         </ScrollView>
     </SafeAreaView>
   );
@@ -27,16 +27,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     text: {
-        fontSize: 20,
-        textAlignVertical: "center",
+        fontSize: 42,
+        align: "center",
         font: 'Roboto',
         justifyContent: "center"
     },
-    h1: {
-        fontSize: 40,
-        align: "center",
-        font: 'Roboto',
-        justifyContent: "center",
-        textAlign: "center",
-    }
 });
+
+
+
