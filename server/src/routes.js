@@ -5,7 +5,7 @@ const client = new NetworkAsCodeClient("cabad23924mshaee2e2cdadefb73p195a25jsn85
 
 // Then, we create an object for the mobile device we want to use
 const myDevice = client.devices.get({
-    networkAccessIdentifier: "device@testcsp.net",
+    networkAccessIdentifier: "4ff71f1f-8c95-40d0-b434-fb19f65a0214@testcsp.net",
     ipv4Address: {
         publicAddress: "233.252.0.2",
         privateAddress: "192.0.2.25",

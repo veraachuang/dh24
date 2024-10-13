@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 const LocationStatusHandler = () => {
     const [locationStatus, setLocationStatus] = useState(null);
@@ -51,7 +51,7 @@ const LocationStatusHandler = () => {
     }, []);
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.container}>
             {locationStatus ? (
                 <Text style={{ fontSize: 18 }}>{locationStatus}</Text>
             ) : (
@@ -61,5 +61,13 @@ const LocationStatusHandler = () => {
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',  // Center the content
+        alignItems: 'center',      // Align items in the center
+    },
+});
 
 export default LocationStatusHandler;
