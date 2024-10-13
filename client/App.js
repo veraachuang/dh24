@@ -16,7 +16,7 @@ export default function App() {
                 <NotificationClient />
             </ScrollView>
 
-            <WaterSourceMap />
+            {/*<WaterSourceMap />*/}
         </SafeAreaView>
     );
 }

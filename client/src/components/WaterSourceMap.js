@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapboxGL from '@rnmapbox/maps';
+import Mapbox from '@rnmapbox/maps';
 import apiService from '../apiService';
 import useOfflineMap from '../useOfflineMap';
+Mapbox.setAccessToken('sk.eyJ1IjoidXctb3NjaGVpbCIsImEiOiJjbTI3OTVuMWkwaTF6Mm5wdjdyYzAwbjBwIn0.7tYKLUISy3vTvZkPNdBwBg');
 
 const WaterSourceMap = () => {
     const [region, setRegion] = useState(null);
@@ -36,7 +37,7 @@ const WaterSourceMap = () => {
     return (
         <View style={styles.container}>
             {region && (
-                <MapboxGL.MapView
+                <Mapbox.MapView
                     style={styles.map}
                     styleURL={MapboxGL.StyleURL.Street}
                     zoomLevel={14}
@@ -44,14 +45,14 @@ const WaterSourceMap = () => {
                     showUserLocation={true}
                 >
                     {waterSources.map(source => (
-                        <MapboxGL.MarkerView
+                        <Mapbox.MarkerView
                             key={source.name}
                             coordinate={[source.coordinates.lon, source.coordinates.lat]}
                             title={source.name}
                             description={`Distance: ${source.distance.toFixed(2)} km`}
                         />
                     ))}
-                </MapboxGL.MapView>
+                </Mapbox.MapView>
             )}
         </View>
     );
