@@ -23,7 +23,7 @@ export async function subscribeToNokiaService() {
         myDevice,
         "org.camaraproject.device-status.v0.connectivity-data",
         // Use HTTPS to send notifications
-        "https://localhost:8088.com/notify",
+        "https://localhost:8088.com/notifyConnect",
         {
             notificationAuthToken: "AUTH0",
             // Pass the previously created date-time object
@@ -31,9 +31,26 @@ export async function subscribeToNokiaService() {
         },
     );
 
+    const mySubscription2 = await client.deviceStatus.subscribe(
+        myDevice,
+        "org.camaraproject.device-status.v0.connectivity-disconnected",
+        // Use HTTPS to send notifications
+        "https://localhost:8088.com/notifyDisconnect",
+        {
+            notificationAuthToken: "AUTH0",
+            // Pass the previously created date-time object
+            subscriptionExpireTime: expirationDate
+        },
+    );
+
+
+
 // Get the subscription previously created by its ID
     const subscription = await client.deviceStatus.get(
         mySubscription.eventSubscriptionId
+    );
+    const subscription2 = await client.deviceStatus.get(
+        mySubscription2.eventSubscriptionId
     );
 
 // Retrieve list of active Device Status subscriptions for a client:
