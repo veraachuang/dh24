@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { WebSocket } from 'ws'; // For WebSocket connection
 
-export default function LocationStatusHandler() {
+const LocationStatusHandler = () => {
     const [locationStatus, setLocationStatus] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
         // WebSocket connection to the backend
-        const socket = new WebSocket('ws://localhost:8088'); // Use your backend WebSocket URL here
+        const socket = new WebSocket('ws://localhost:8080'); // Use your backend WebSocket URL here
 
         socket.onopen = () => {
             console.log('WebSocket connection established');
@@ -61,4 +60,6 @@ export default function LocationStatusHandler() {
             {errorMsg && <Text style={{ color: 'red' }}>{errorMsg}</Text>}
         </View>
     );
-}
+};
+
+export default LocationStatusHandler;
