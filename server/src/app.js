@@ -7,7 +7,7 @@ import waterSourceRoutes from './waterSourceRoutes.js';  // Import water source 
 
 
 // Set up WebSocket server
-const wss = new WebSocketServer({ port: 8080 }); // WebSocket server on port 8080
+const ws = new WebSocketServer({ port: 8080 }); // WebSocket server on port 8080
 
 // Store connected WebSocket clients
 let clients = [];
