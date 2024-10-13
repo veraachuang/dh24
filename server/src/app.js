@@ -1,22 +1,38 @@
-import express, { Express, Request, Response } from "express"
-// const express = require('express');
-const cors = require('cors');
+import express from "express"
+import bodyParser from 'body-parser';
+import { NetworkAsCodeClient } from "network-as-code";
+import {subscribeToNokiaService} from "./routes.js";
 
-const port = 3000;
 const app = express();
-app.use(cors());
 
-/** GET endpoint for sending back a Hello World message */
-app.get('/hello', (req, res) => {
-  res.type('text');
-  res.send('Hello, World!');
+// Middleware to parse incoming JSON data
+app.use(bodyParser.json());
+
+// POST endpoint to receive notifications from Nokia
+app.post('/notify', (req, res) => {
+    const authToken = req.headers.authorization;  // Extract the Bearer token
+
+    // Verify the token (ensure it's the expected token)
+    if (authToken !== 'AUTH0') {
+        return res.status(403).send('Forbidden: Invalid token');
+    }
+
+    const notificationData = req.body;  // Extract the notification data
+    console.log('Received session update:', notificationData);
+    res.send({notification: notificationData});
+
+    // Process the session update (e.g., log it, store it, or notify clients)
+    res.status(200).send('Notification received');
 });
 
+// Start the server
+const PORT = 8088;
 
-// Tells our app to listen to the given port
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+// app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+
+    // Call the function to subscribe to Nokia services
+    // const { subscribeToNokiaService } = require('./routes.js');
+    subscribeToNokiaService();  // Start the subscription once the server is running
 });
-
-// need ts backend?
-// can use SDK or APIs 
