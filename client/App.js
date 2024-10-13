@@ -6,11 +6,13 @@ import SomeComponent from './src/SomeComponent';
 import React, { useState, useEffect } from 'react';
 import NotificationClient from "./NotificationHandler";
 import LocationStatusHandler from './src/LocationHandler';
-import WaterSourceMap from './src/components/WaterSourceMap';
+// import WaterSourceMap from './src/components/WaterSourceMap';
+import NavBar from "./src/components/NavBar";
 
 export default function App() {
 
     const [isLoading, setIsLoading] = useState(true);
+    const [currentScreen, setCurrentScreen] = useState('Home');
     useEffect(() => {
         const loadApp = async () => {
             // Simulate loading or fetching of data (e.g., from backend)
@@ -43,55 +45,98 @@ export default function App() {
         );
     }
 
+    const handleHomePress = () => {
+        setCurrentScreen('Home'); // Change to Home screen
+    };
+
+    const handleWaterPress = () => {
+        setCurrentScreen('Water'); // Change to water screen
+    };
+
+    const handleProfilePress = () => {
+        setCurrentScreen('Profile'); // Change to Profile screen
+    };
+
     return (
 
         <SafeAreaView style={styles.container}>
-            {/* <Text style={styles.h1}> S  P  O  T  T  Y</Text> */}
-            <SearchBar />
-            <ScrollView style={styles.scrollView}>
-                <View style={styles.image_container}>
-                    <Image
-                        source={require('./assets/lake-serene.jpeg')} // Replace with your image URL
-                        style={styles.image}
-                    />
-                </View>
-                <View style={styles.caption_container}>
-                    <Text style={styles.caption}>Lake Serene</Text>
-                    <Text style={styles.description}>20 miles away</Text>
-                </View>
-                <View style={styles.image_container}>
-                    <Image
-                        source={require('./assets/grand-canyon.jpeg')} // Replace with your image URL
-                        style={styles.image}
-                    />
-                </View>
-
-                <View style={styles.caption_container}>
-                    <Text style={styles.caption}>Grand Canyon</Text>
-                    <Text style={styles.description}>50+ miles away</Text>
-                </View>
-
-                <View style={styles.image_container}>
-                    <Image
-                        source={require('./assets/mont-blanc.jpeg')} // Replace with your image URL
-                        style={styles.image}
-                    />
-                </View>
-                <View style={styles.caption_container}>
-                    <Text style={styles.caption}>Tour du Mont Blanc</Text>
-                    <Text style={styles.description}>100+ miles away</Text>
-                </View>
-                <WaterSourceMap/>
-            </ScrollView>
-            <NotificationClient />
-            <LocationStatusHandler />
-            {/* <WaterSourceMap/> */}
             <StatusBar style="auto" />
+
+            <View style={styles.container}>
+                {currentScreen === 'Home' && <HomeScreen />}
+                {currentScreen === 'Water' && <WaterScreen />}
+                {currentScreen === 'Profile' && <ProfileScreen />}
+            </View>
+
+
+            {/* <WaterSourceMap/> */}
+            <NavBar
+                onPressHome={handleHomePress}
+                onPressWater={handleWaterPress}
+                onPressProfile={handleProfilePress}
+            />
         </SafeAreaView>
     );
 }
 
+const HomeScreen = () => (
+    <View style={styles.screen}>
+        <SearchBar />
+        <ScrollView style={styles.scrollView}>
+            <View style={styles.image_container}>
+                <Image
+                    source={require('./assets/lake-serene.jpeg')} // Replace with your image URL
+                    style={styles.image}
+                />
+            </View>
+            <View style={styles.caption_container}>
+                <Text style={styles.caption}>Lake Serene</Text>
+                <Text style={styles.description}>20 miles away</Text>
+            </View>
+            <View style={styles.image_container}>
+                <Image
+                    source={require('./assets/grand-canyon.jpeg')} // Replace with your image URL
+                    style={styles.image}
+                />
+            </View>
+
+            <View style={styles.caption_container}>
+                <Text style={styles.caption}>Grand Canyon</Text>
+                <Text style={styles.description}>50+ miles away</Text>
+            </View>
+
+            <View style={styles.image_container}>
+                <Image
+                    source={require('./assets/mont-blanc.jpeg')} // Replace with your image URL
+                    style={styles.image}
+                />
+            </View>
+            <View style={styles.caption_container}>
+                <Text style={styles.caption}>Tour du Mont Blanc</Text>
+                <Text style={styles.description}>100+ miles away</Text>
+            </View>
+        </ScrollView>
+    </View>
+);
+
+const ProfileScreen = () => (
+    <View style={styles.screen}>
+        <NotificationClient />
+    </View>
+);
+
+const WaterScreen = () => (
+    <View style={styles.screen}>
+        <LocationStatusHandler />
+    </View>
+);
+
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        justifyContent: 'center',  // Center the content
+        alignItems: 'center',      // Align items in the center
+    },
     landingContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -129,7 +174,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: 15,
+        paddingTop: 10,
         backgroundColor: '#fff',
     },
     scrollView: {
