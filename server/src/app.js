@@ -1,7 +1,30 @@
 import express from "express"
 import bodyParser from 'body-parser';
 import { NetworkAsCodeClient } from "network-as-code";
-import {subscribeToNokiaService} from "./routes.js";
+import { subscribeToNokiaService } from "./routes.js";
+import WebSocket, { WebSocketServer } from 'ws';
+import waterSourceRoutes from './waterSourceRoutes.js';  // Import water source routes
+
+
+// Set up WebSocket server
+const wss = new WebSocketServer({ port: 8080 }); // WebSocket server on port 8080
+
+// Store connected WebSocket clients
+let clients = [];
+
+// WebSocket connection
+wss.on('connection', (ws) => {
+    clients.push(ws); // Add client to list
+
+    ws.on('close', () => {
+        // Remove client when it disconnects
+        clients = clients.filter(client => client !== ws);
+    });
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+});
 
 const app = express();
 
@@ -130,6 +153,8 @@ app.post('/notifyDisconnect', (req, res) => {
     // Process the session update (e.g., log it, store it, or notify clients)
     res.status(200).send('Notification received');
 });
+
+app.use('/water-source', waterSourceRoutes);
 
 app.get
 
