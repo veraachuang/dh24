@@ -35,6 +35,7 @@ app.get('/getLocation', async (req, res) => {
     try {
         const location = await myDevice.getLocation(3600); // Fetch the latest location in 1/2 hour
         // output of request will be UNKNOWN
+        // true/false/unknown
         if (location === "UNKNOWN") {
             res.status(404).send('Location has expired');
         }

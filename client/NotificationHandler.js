@@ -57,9 +57,9 @@ const NotificationClient = () => {
                 {text: 'OK', onPress: () => {
                         // calls location retrieval to get the user's location
                         //     const message = `Hi! I'm at this location: ${userLocation}.`;
-                        const locationData =  getDeviceLocation();
+                        // const locationData =  getDeviceLocation();
                         const message = `Hi! My connection is spotty but I'm currently ` +
-                            `at this location: ${locationData.latitude}, ${locationData.longitude}.`;
+                            `at this location: 47.48627616952785, 47.48627616952785.`;
                         const url = `sms:?body=${encodeURIComponent(message)}`;
 
                         // Open the Messages app with the pre-filled message
@@ -85,23 +85,23 @@ const NotificationClient = () => {
     };
 
     // FOR THE PURPOSE OF DEMO:
-    const getLocation = async () => {
-        try {
-            // Fetch the location before showing the alert
-            const location = await getDeviceLocation();
-
-            if (location.error || location === undefined) {
-                console.error('Error fetching location:', location.error);
-                setDeviceLocation({latitude: "undefined", longitude: "undefined"})
-            } else {
-                // Now show the alert with the fetched location data
-                setDeviceLocation(location);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setDeviceLocation({latitude: "undefined", longitude: "undefined"})
-        }
-    };
+    // const getLocation = async () => {
+    //     try {
+    //         // Fetch the location before showing the alert
+    //         const location = await getDeviceLocation();
+    //
+    //         if (location.error || location === undefined) {
+    //             console.error('Error fetching location:', location.error);
+    //             setDeviceLocation({latitude: "undefined", longitude: "undefined"})
+    //         } else {
+    //             // Now show the alert with the fetched location data
+    //             setDeviceLocation(location);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //         setDeviceLocation({latitude: "undefined", longitude: "undefined"})
+    //     }
+    // };
     // Function to add timestamp when button is clicked
     const addNotificationTimestamp = (timestamp) => {
         setNotificationTimestamps(prevTimestamps => {
@@ -121,11 +121,10 @@ const NotificationClient = () => {
                 },
                 {text: 'OK', onPress: () => {
                         // calls location retrieval to get the user's location
-                        void getLocation();
+                        // void getLocation();
 
                         // theoretically should get the latitude and longitude but there need to be more null checks
-                        // const message = `Hi! My connection is spotty but I'm currently at this location: 123.34985, 46.49382.`;
-                        const message = `Hi! My connection is spotty but I'm currently at this location: ${deviceLocation.latitude}, ${deviceLocation.longitude}.`;
+                        const message = "Hi! My connection is spotty but I'm currently at this location: 47.48627616952785, 19.07915612501993";
                         const url = `sms:?body=${encodeURIComponent(message)}`;
 
                         // Open the Messages app with the pre-filled message
@@ -163,6 +162,9 @@ const NotificationClient = () => {
         );
     };
 
+
+
+
     return (
         <View style={styles.container}>
             <Text style = {styles.h1}>Find out if you're connected...</Text>
@@ -176,6 +178,7 @@ const NotificationClient = () => {
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {

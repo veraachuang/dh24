@@ -3,7 +3,7 @@ import {Button, View, StyleSheet, Text} from "react-native";
 
 export const getDeviceLocation = async () => {
     try {
-        const response = await fetch(`https://localhost:8088/device-location`);
+        const response = await fetch(`/device-location`);
         const data = await response.json();
         return { latitude: data.latitude, longitude: data.longitude };
     } catch (error) {
@@ -20,13 +20,13 @@ const LocationStatusHandler = () => {
     const handleFetchLocation = async () => {
         setLoading(true);
         try {
-            // const locationData = await getDeviceLocation(); // Use the external function
-            if (locationData !== undefined) {
-                setDeviceLocation(locationData); // Set the device location in the state
-                findDistance(deviceLocation.latitude, deviceLocation.longitude);
-            }
-            //setDeviceLocation({latitude: 142.2598, longitude:23.23498});
-            //findDistance(142.2598, 23.23498);
+            // const locationData = await getDeviceLocation();
+            // if (locationData !== undefined) {
+            //     setDeviceLocation(locationData); // Set the device location in the state
+            //     findDistance(deviceLocation.latitude, deviceLocation.longitude);
+            // }
+            setDeviceLocation({latitude: 47.48627616952785, longitude:19.07915612501993});
+            findDistance(47.48627616952785, 19.07915612501993);
         } catch (error) {
             console.error('Error fetching device location:', error);
         } finally {
