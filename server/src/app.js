@@ -1,8 +1,7 @@
 import express from "express"
 import bodyParser from 'body-parser';
 import { NetworkAsCodeClient } from "network-as-code";
-import { subscribeToNokiaService } from "./routes.js";
-import WebSocket, { WebSocketServer } from 'ws';
+import {subscribeToNokiaService} from "./routes.js";
 
 const app = express();
 
@@ -104,13 +103,13 @@ app.post('/notifyConnect', (req, res) => {
     const authToken = req.headers.authorization; // Extract the Bearer token
 
     // Verify the token (ensure it's the expected token)
-    if (authToken !== '<auth-token') {
+    if (authToken !== '<auth-token>') {
         return res.status(403).send('Forbidden: Invalid token');
     }
 
     const notificationData = req.body; // Extract the notification data
     console.log('Received session update:', notificationData);
-    res.send({ notification: notificationData });
+    res.send({notification: notificationData});
 
     // Process the session update (e.g., log it, store it, or notify clients)
     res.status(200).send('Notification received');
@@ -126,7 +125,7 @@ app.post('/notifyDisconnect', (req, res) => {
 
     const notificationData = req.body; // Extract the notification data
     console.log('Received session update:', notificationData);
-    res.send({ notification: notificationData });
+    res.send({notification: notificationData});
 
     // Process the session update (e.g., log it, store it, or notify clients)
     res.status(200).send('Notification received');
