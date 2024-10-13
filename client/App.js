@@ -21,34 +21,41 @@ export default function App() {
     if (isLoading) {
         // Show landing page while loading
         return (
-          <SafeAreaView style={styles.landingContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.logoText}>S   P </Text>
-              <View style={styles.logoOverlayContainer}>
-                {/* This view wraps both the logo and the "O" */}
-                <Image
-                  source={require('./assets/landingicon.png')}
-                  style={styles.logo}
-                  resizeMode="contain"
-                />
-                <Text style={styles.oText}> O </Text>
-              </View>
-              <Text style={styles.logoText}> T   T   Y</Text>
-            </View>
-            <StatusBar style="auto" />
-          </SafeAreaView>
+            <SafeAreaView style={styles.landingContainer}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.logoText}>S   P </Text>
+                    <View style={styles.logoOverlayContainer}>
+                        {/* This view wraps both the logo and the "O" */}
+                        <Image
+                            source={require('./assets/landingicon.png')}
+                            style={styles.logo}
+                            resizeMode="contain"
+                        />
+                        <Text style={styles.oText}> O </Text>
+                    </View>
+                    <Text style={styles.logoText}> T   T   Y</Text>
+                </View>
+                <StatusBar style="auto" />
+            </SafeAreaView>
         );
-      }
+    }
 
     return (
 
         <SafeAreaView style={styles.container}>
             <Text style={styles.h1}> S  P  O  T  T  Y</Text>
             <ScrollView style={styles.scrollView}>
+                <View style={styles.container}>
+                    <Image
+                        source={require('./assets/grand-canyon.jpeg')} // Replace with your image URL
+                        style={styles.image}
+                    />
+                    <Text style={styles.caption}>Grand Canyon</Text>
+                </View>
                 <Text style={styles.text}>Have fun on your backpacking trip!</Text>
                 <StatusBar style="auto" />
                 <NotificationClient />
-                <LocationStatusHandler/>
+                <LocationStatusHandler />
             </ScrollView>
             <StatusBar style="auto" />
         </SafeAreaView>
@@ -61,36 +68,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#0BB243', // Green background color
-      },
-      textContainer: {
+    },
+    textContainer: {
         flexDirection: 'row', // Aligns the text and logo horizontally
         alignItems: 'center',
-      },
-      logoText: {
+    },
+    logoText: {
         fontSize: 40,
         fontFamily: 'Roboto',
         color: '#000',
         fontWeight: 'bold', // Bold text for SPOTTY
-      },
-      logoOverlayContainer: {
+    },
+    logoOverlayContainer: {
         position: 'relative', // Allows the logo to overlap the "O"
         justifyContent: 'center',
         alignItems: 'center',
         width: 50, // Adjust width to fit the logo and "O"
         height: 50, // Adjust height to fit the logo and "O"
-      },
-      logo: {
+    },
+    logo: {
         position: 'absolute', // Absolute positioning to overlay on top of "O"
         width: 40, // Adjust width to match the size of the "O"
         height: 40, // Adjust height to match the size of the "O"
         top: -25, // Fine-tune vertical positioning of the logo
-      },
-      oText: {
+    },
+    oText: {
         fontSize: 40,
         fontFamily: 'Roboto',
         color: '#000',
         fontWeight: 'bold', // Bold "O" to match the rest of the text
-      },
+    },
     container: {
         flex: 1,
         paddingTop: StatusBar.currentHeight || 0,
@@ -111,7 +118,16 @@ const styles = StyleSheet.create({
         font: 'Roboto',
         justifyContent: "center",
         textAlign: "center",
-    }
+    },
+    image: {
+        width: 150,             // Set the width of the image
+        height: 150,            // Set the height of the image
+        borderRadius: 75,       // Half the width/height to create rounded edges
+        marginBottom: 10,       // Space between image and text
+    },
+    caption: {
+        fontSize: 20,
+    },
 });
 
 
