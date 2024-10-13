@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, Button} from 'react-native';
 import { WebSocket } from 'ws'; // For WebSocket connection
 
-export default function LocationStatusHandler() {
+const LocationStatusHandler = () =>  {
     const [locationStatus, setLocationStatus] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
         // WebSocket connection to the backend
-        const socket = new WebSocket('ws://localhost:8088'); // Use your backend WebSocket URL here
+        const ws = new WebSocket('ws://localhost:8080'); // Use your backend WebSocket URL here
 
-        socket.onopen = () => {
+        ws.onopen = () => {
             console.log('WebSocket connection established');
         };
 
-        socket.onmessage = (event) => {
+        ws.onmessage = (event) => {
             const { latitude, longitude } = JSON.parse(event.data).location;
             const cityCenter = { latitude: 47.6062, longitude: -122.3321 }; // Seattle city center coordinates
 
@@ -28,6 +28,7 @@ export default function LocationStatusHandler() {
 
             const distanceInMiles = distanceFromCityCenter * 0.621371; // Convert kilometers to miles
 
+
             // Check if the distance is within 1 mile
             if (distanceInMiles <= 1) {
                 setLocationStatus("City is near (within 1 mile)");
@@ -36,23 +37,28 @@ export default function LocationStatusHandler() {
             }
         };
 
-        socket.onerror = (error) => {
+        ws.onerror = (error) => {
             console.error('WebSocket error:', error);
             setErrorMsg('Failed to connect to the server');
         };
 
-        socket.onclose = () => {
+        ws.onclose = () => {
             console.log('WebSocket connection closed');
         };
 
         // Cleanup WebSocket connection when the component unmounts
         return () => {
-            socket.close();
+            ws.close();
         };
     }, []);
 
+
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Button
+                title="Distance to closest city"
+                onPress={() => setLocationStatus("City is near (within 1 mile)")}
+            />
             {locationStatus ? (
                 <Text style={{ fontSize: 18 }}>{locationStatus}</Text>
             ) : (
@@ -62,3 +68,5 @@ export default function LocationStatusHandler() {
         </View>
     );
 }
+
+export default LocationStatusHandler;
