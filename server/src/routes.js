@@ -46,7 +46,7 @@ export async function subscribeToNokiaService() {
 
 
 
-// Get the subscription previously created by its ID
+    // Get the subscription previously created by its ID
     const subscription = await client.deviceStatus.get(
         mySubscription.eventSubscriptionId
     );
