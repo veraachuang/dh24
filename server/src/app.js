@@ -1,8 +1,8 @@
 import express from "express"
 import bodyParser from 'body-parser';
-import { NetworkAsCodeClient } from "network-as-code";
 import {subscribeToNokiaService} from "./routes.js";
 import WebSocket, { WebSocketServer } from 'ws';
+import {myDevice} from "./devices.js";
 
 // Set up WebSocket server
 const ws = new WebSocketServer({ port: 8080 }); // WebSocket server on port 8080
@@ -29,7 +29,29 @@ const app = express();
 // Middleware to parse incoming JSON data
 app.use(bodyParser.json());
 
-// POST endpoint to receive notifications from Nokia
+// GET endpoint, location retrieval
+app.get('/getLocation', async (req, res) => {
+
+    try {
+        const location = await myDevice.getLocation(3600); // Fetch the latest location in 1/2 hour
+        // output of request will be UNKNOWN
+        if (location === "UNKNOWN") {
+            res.status(404).send('Location has expired');
+        }
+        else {
+            res.status(200).json({
+                latitude: location.latitude,
+                longitude: location.longitude
+            });
+        }
+
+    } catch (error) {
+        console.error('Error fetching location:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// POST endpoint, connectivity notifications
 app.post('/notifyConnect', (req, res) => {
     const authToken = req.headers.authorization;  // Extract the Bearer token
 

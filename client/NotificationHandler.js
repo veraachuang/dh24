@@ -1,11 +1,14 @@
 import {Alert, Linking, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useState, useEffect} from "react";
+import {getDeviceLocation} from "./src/LocationHandler";
 
 const NotificationClient = () => {
-    const [isToggled, setIsToggled] = useState(false);
+    // FOR THE PURPOSE OF DEMO: isToggled is true
+    const [isToggled, setIsToggled] = useState(true);
     const [notificationData, setNotificationData] = useState(null);
     const [notificationCount, setNotificationCount] = useState(0); // Counter for notifications
     const [notificationTimestamps, setNotificationTimestamps] = useState([]); // Store timestamps
+    const [deviceLocation, setDeviceLocation] = useState(null);
 
     useEffect(() => {
         // Connect to WebSocket server
@@ -13,19 +16,25 @@ const NotificationClient = () => {
 
         // When WebSocket receives a message
         ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+            const data = JSON.parse(event.notification);
             console.log('Notification received:', data);
-            handleNotification(data.notification);
+            if (typeof (data.type) != "string") {
+                setNotificationData('error retrieving notification');
+                return;
+            }
+            if (data.type !== "org.camaraproject.device-status.v0.connectivity-data" ||
+            data.type !== "org.camaraproject.device-status.v0.connectivity-disconnected") {
+                return;
+            }
+            setNotificationData(data.type);
+            handleNotification(data);
         };
         // Clean up WebSocket connection when component unmounts
         return () => ws.close;
     }, []);
 
     const handleNotification = (data) => {
-        if (typeof (data.type) != "string") {
-            setNotificationData('error retrieving notification');
-            return;
-        }
+
         const currentTime = new Date().getTime(); // Current timestamp
 
         // Update timestamps and filter out old timestamps (older than 5 minutes)
@@ -36,10 +45,9 @@ const NotificationClient = () => {
             return newTimestamps.filter(timestamp => currentTime - timestamp <= 900000);
         });
 
+
         // check if there was more than 5 within 15 minutes
         if (notificationTimestamps.length >= 6) {
-            // Alert.alert('Our system has detected the connection in this area is spotty. Would you like to ' +
-                // 'send a message to friends or family with your location?');
             Alert.alert('', 'Our system has detected an unstable connection. Would you like to ' +
                 'send a message to friends or family with your location?', [
                 {
@@ -49,8 +57,9 @@ const NotificationClient = () => {
                 {text: 'OK', onPress: () => {
                         // calls location retrieval to get the user's location
                         //     const message = `Hi! I'm at this location: ${userLocation}.`;
+                        const locationData =  getDeviceLocation();
                         const message = `Hi! My connection is spotty but I'm currently ` +
-                        `at this location: 42.23498, 143.209809.`;
+                            `at this location: ${locationData.latitude}, ${locationData.longitude}.`;
                         const url = `sms:?body=${encodeURIComponent(message)}`;
 
                         // Open the Messages app with the pre-filled message
@@ -62,22 +71,37 @@ const NotificationClient = () => {
         }
         else {
             // Check if the count exceeds 3 within 5 minutes
-            if (notificationTimestamps.length >= 3) { // Already 2 in timestamps array, this makes it 3
+            if (notificationTimestamps.length >= 3) {
                 setNotificationCount(prevCount => prevCount + 1);
                 Alert.alert('Be careful! Your connection is spotty');
             } else {
-                setIsToggled(prev => !prev); // Toggle the state when a notification is received
-                setNotificationData(data.type);
+                setIsToggled(prev => !prev);
                 const notificationType = (notificationData === "org.camaraproject.device-status.v0.connectivity-data"
-                    ? "You've lost connection!" : "You've regained connection");
-                // Optionally show an alert to the user
-                Alert.alert('Notification', notificationType);
+                    ? "You've regained connection" : "You've lost connection!");
+                Alert.alert(notificationType);
                 setNotificationCount(prevCount => prevCount + 1); // Increment the notification count
             }
         }
     };
 
     // FOR THE PURPOSE OF DEMO:
+    const getLocation = async () => {
+        try {
+            // Fetch the location before showing the alert
+            const location = await getDeviceLocation();
+
+            if (location.error || location === undefined) {
+                console.error('Error fetching location:', location.error);
+                setDeviceLocation({latitude: "undefined", longitude: "undefined"})
+            } else {
+                // Now show the alert with the fetched location data
+                setDeviceLocation(location);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setDeviceLocation({latitude: "undefined", longitude: "undefined"})
+        }
+    };
     // Function to add timestamp when button is clicked
     const addNotificationTimestamp = (timestamp) => {
         setNotificationTimestamps(prevTimestamps => {
@@ -85,7 +109,9 @@ const NotificationClient = () => {
             // Remove timestamps older than 15 minutes (900000 ms)
             return newTimestamps.filter(ts => new Date().getTime() - ts <= 900000);
         });
+
         setIsToggled(prev => !prev);
+
         if (notificationTimestamps.length >= 5) {
             Alert.alert('', 'Our system has detected an unstable connection. Would you like to ' +
                 'send a message to friends or family with your location?', [
@@ -95,14 +121,17 @@ const NotificationClient = () => {
                 },
                 {text: 'OK', onPress: () => {
                         // calls location retrieval to get the user's location
-                        //     const message = `Hi! I'm at this location: ${userLocation}.`;
-                        const message = `Hi! My connection is spotty but I'm currently ` +
-                            `at this location: 42.23498, 143.209809.`;
+                        void getLocation();
+
+                        // const message = `Hi! My connection is spotty but I'm currently at this location: 234.40932}, 23.45098}.`;
+                        // theoretically should get the latitude and longitude but there need to be more null checks
+                        const message = `Hi! My connection is spotty but I'm currently at this location: ${deviceLocation.latitude}, ${deviceLocation.longitude}.`;
                         const url = `sms:?body=${encodeURIComponent(message)}`;
 
                         // Open the Messages app with the pre-filled message
                         Linking.openURL(url)
                             .catch(err => console.error('Error opening SMS app:', err));
+
                     },
                 },
             ]);
