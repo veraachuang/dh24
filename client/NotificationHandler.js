@@ -5,7 +5,7 @@ const NotificationClient = () => {
     const [isToggled, setIsToggled] = useState(false);
     const [notificationData, setNotificationData] = useState(null);
     const [notificationCount, setNotificationCount] = useState(0); // Counter for notifications
-    const [notificationTimestamps, setNotificationTimestamps] = useState([1,3,4,5,6,7]); // Store timestamps
+    const [notificationTimestamps, setNotificationTimestamps] = useState([]); // Store timestamps
 
     useEffect(() => {
         // Connect to WebSocket server
@@ -48,10 +48,12 @@ const NotificationClient = () => {
                 },
                 {text: 'OK', onPress: () => console.log('OK Pressed')},
             ]);
+            // for purposes of testing
+            // notificationTimestamps.length = 1;
         }
         else {
             // Check if the count exceeds 3 within 5 minutes
-            if (notificationTimestamps.length >= 3) { // Already 2 in timestamps array, this makes it 3
+            if (notificationTimestamps.length >= 3) {
                 setNotificationCount(prevCount => prevCount + 1);
                 Alert.alert('Be careful! Your connection is unstable');
             } else {
@@ -60,7 +62,7 @@ const NotificationClient = () => {
                 const notificationType = (notificationData === "org.camaraproject.device-status.v0.connectivity-data"
                     ? "You've lost connection!" : "You've regained connection");
                 // Optionally show an alert to the user
-                Alert.alert('Notification', notificationType);
+                Alert.alert(notificationType);
                 setNotificationCount(prevCount => prevCount + 1); // Increment the notification count
             }
         }
